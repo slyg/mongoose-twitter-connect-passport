@@ -1,0 +1,14 @@
+{
+        "name"                  : "mongoose-twitter-connect-passeport",
+        "version"               : "0.0.1",
+        "private"               : true,
+        "dependencies"  : {
+                "express"       : ">=3.0.x",
+                "consolidate"   : ">=0.3.1",
+                "swig"          : ">=0.11.3",
+                "mongoose"      : ">=3.1.0",
+                "async"         : ">=0.1.22",
+		"passport"	: ">=0.1.12",
+		"passport-twitter" : "*"
+        }
+}
