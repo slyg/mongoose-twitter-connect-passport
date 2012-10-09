@@ -94,12 +94,20 @@ app.configure(function() {
 
 app.configure('development', function(){
         app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-        swig.init({cache: false});
+	swig.init({ root: __dirname + '/views', allowErrors: true, cache: false });
 });
 
 // routing
-app.get('/', function(req, res){
-  res.render('home.html', { user: req.user });
+app.get('/', ensureAuthenticated, function(req, res){
+  	res.redirect('/home');
+});
+
+app.get('/home', ensureAuthenticated, function(req, res){
+	res.render('home.html', { user: req.user });
+});
+
+app.get('/login', function(req, res){
+        res.render('login.html', { user: req.user });
 });
 
 app.get('/auth/twitter',
@@ -112,7 +120,7 @@ app.get('/auth/twitter',
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/home');
   });
 
 app.get('/logout', function(req, res){
@@ -124,5 +132,5 @@ app.listen(3000);
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/')
+  res.redirect('/login');
 }
